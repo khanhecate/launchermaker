@@ -1,0 +1,46 @@
+#!/bin/bash
+if [[ $EUID -ne 0 ]]; then
+	echo "please run as root !" && exit
+	else
+	clear && echo "welcome on launcher maker"
+fi
+echo "Ready To start ? : "
+read -n1 -p "[y,n]" doit
+case $doit in
+  y|Y) echo "starting..." && sleep 2 ;;
+  n|N) echo "aborting" ;;
+  *) echo "please choise y/n " ;;
+esac
+
+echo -n "name for launcher : "
+read name
+echo "[Desktop Entry]" >> $name.desktop 
+echo "Type=Application" >> $name.desktop
+echo "Make this launcher run on terminal ? : "
+read -n1 -p "[y,n]" doit
+case $doit in
+  y|Y) echo "adding" && echo "Terminal=true" >> $name.desktop ;;
+  n|N) echo "adding" && echo "Terminal=fasle" >> $name.desktop ;;
+  *) echo "please choise y/n " ;;
+  esac
+echo "lokasi program yang akan di buat launcher :"
+echo -n ":"
+read lokasi
+echo "Exec="$lokasi"" >> $name.desktop
+echo "Name=$name" >> $name.desktop
+echo "lokasi icon untuk launcher anda :"
+echo -n ":"
+read icon
+echo "Icon=$icon" >> $name.desktop
+
+read -n1 -p "launcher created , you wont to installing on system ? [y,n]" doit
+case $doit in
+  y|Y) echo "installing ..." && sleep 3 ;;
+  n|N) echo "installation canceled file on :" && locate $name.desktop && exit ;;
+  *) echo "please choise y/n " ;;
+esac
+
+chmod 777 $name.desktop
+chown 777 $name.desktop
+mv $name.desktop /usr/share/applications/ && echo "finishing ... " 
+echo "rampung gan :-)"
