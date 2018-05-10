@@ -1,0 +1,65 @@
+#!/bin/bash
+if [[ $EUID -ne 0 ]]; then
+	sleep 2 && echo "please run as root !" && sleep 1 && exit
+	else
+	clear 
+	#logo :v
+	echo "  |\\_/|  zazazsss ..."
+	echo " (^ . ^)"
+	echo "/|==o==|\\ welcome on launcher maker     |\\_/|   |\\_/|   |\\_/|   |\\_/|"
+	echo " | /^\\ |               by : hecate     (^ . ^) (^ . ^) (^ . ^) (^ . ^)"
+	echo "======================================================================="
+fi
+echo "Ready To start ? : "
+read -n1 -p "[y,n]" doit
+case $doit in
+  y|Y) echo "  starting..." && sleep 2  ;;
+  n|N) echo "  aborting..." && sleep 2 && exit  ;;
+  *) echo "please choise y or n " ;;
+esac
+echo -n "name for your project [without space]: "
+read name
+echo -n "name for launcher [you can use space] : "
+read nama
+echo "[Desktop Entry]" >> $name.desktop 
+echo "Type=Application" >> $name.desktop
+echo "Make this launcher run on terminal ? : "
+read -n1 -p "[y,n]" doit
+case $doit in
+  y|Y) echo "adding" && echo "Terminal=true" >> $name.desktop ;;
+  n|N) echo "adding" && echo "Terminal=false" >> $name.desktop ;;
+  *) echo "please choise y or n " ;;
+  esac
+#file lokasi
+echo "lokasi program yang akan di buat launcher :"
+echo -n ":"
+read lokasi
+echo "Exec=\"$lokasi\"" >> $name.desktop
+echo "Name=$nama" >> $name.desktop
+#comment
+echo "Insert a Comment for your launcher "
+echo -n "[Enter For None] : "
+read comment
+echo "Comment=$comment" >> $name.desktop
+#category
+echo "Insert category for your launcher"
+echo -n "[Enter For None] : "
+read category
+echo "Categories=$category;" >> $name.desktop
+#icon
+echo -n "lokasi icon untuk launcher anda : "
+read icon
+echo "Icon=$icon" >> $name.desktop
+
+read -n1 -p "launcher created , you wont to installing on system ? [y,n]" doit
+case $doit in
+  y|Y) echo "installing ..." && sleep 3 ;;
+  n|N) echo "installation canceled file on :" && locate $name.desktop && exit ;;
+  *) echo "please choise y or n " ;;
+esac
+
+chmod 755 $name.desktop
+chown 755 $name.desktop
+mv $name.desktop /usr/share/applications/ && echo "finishing ... " && sleep 1 
+echo "rampung gan  |\\_/|"
+echo "            (^ . ^)"
